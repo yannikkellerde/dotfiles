@@ -1,0 +1,45 @@
+#! /bin/sh
+
+pgrep -x sxhkd > /dev/null || sxhkd &
+
+bspc monitor -d I II III IV V VI
+
+bspc config border_width         0
+bspc config window_gap          12
+bspc config top_padding         29
+
+bspc config split_ratio          0.52
+bspc config borderless_monocle   true
+bspc config gapless_monocle      true
+
+bspc rule -a Gimp desktop='^6' state=floating follow=on
+bspc rule -a firefox desktop='^2' state=frame
+bspc rule -a discord state=floating center=on rectangle=1600x900+0+0
+bspc rule -a thunderbird state=floating center=on rectangle=1600x900+0+0
+bspc rule -a mplayer2 state=floating
+bspc rule -a Kupfer.py focus=on
+bspc rule -a Screenkey manage=off
+sxhkd -c /home/kappablanca/.config/sxhkd/sxhkdrc &
+setxkbmap -layout de
+export PATH=$PATH:~/bin
+export PATH=$PATH:~/.local/bin
+export XDG_CONFIG_HOME=~/.config
+picom&
+bash ~/.config/polybar/launch.sh --forest
+dunst&
+feh --bg-scale ~/Pictures/peakpx.jpg
+floating_desktop.bash 5&
+floating_desktop.bash 6&
+if ! pgrep -x "firefox" > \dev\null
+then
+	firefox&
+fi
+xinput set-prop "SYNA327F:00 06CB:CD4F Touchpad" "libinput Tapping Enabled" 1
+xinput set-prop "SYNA327F:00 06CB:CD4F Touchpad" "libinput Natural Scrolling Enabled" 1
+xinput set-prop  "SYNA327F:00 06CB:CD4F Touchpad" "libinput Accel Speed" 0.2
+xinput disable "SYNA327F:00 06CB:CD4F Touchpad"
+if ! pgrep -x "alacritty" > \dev\null
+then
+	alacritty&
+fi
+unclutter -idle 0.01 -root&

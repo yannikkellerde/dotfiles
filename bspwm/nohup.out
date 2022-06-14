@@ -1,0 +1,24 @@
+tint2: Using glib slice allocator (default). Run tint2 with environment variable G_SLICE=always-malloc in case of strange behavior or crashes
+tint2: xRandr: Found crtc's: 3
+[1;34mtint2: xRandr: Linking output eDP-1 with crtc 0, resolution 1920x1080, DPI 141[0m
+tint2: xRandr: crtc 1 seems disabled
+tint2: xRandr: crtc 2 seems disabled
+tint2: No XSETTINGS manager, tint2 uses config option 'launcher_icon_theme'.
+tint2: Loading config file: /home/kappablanca/.config/tint2/tint2rc
+tint2: real transparency off.... depth: 24
+tint2: panel items: CLTBS
+tint2: Systray composited rendering on
+[1;32mtint2: Found power device hid-0018:04F3:2815.0001-battery[0m
+[1;31mtint2: /build/tint2/src/tint2/src/battery/linux.c:167: read failed for /sys/class/power_supply/hid-0018:04F3:2815.0001-battery/charge_now[0m
+[1;31mtint2: Failed to initialize battery "hid-0018:04F3:2815.0001-battery"[0m
+[1;32mtint2: Found power device ADP1[0m
+[1;32mFound mains "ADP1"[0m
+[1;32mtint2: Found power device BAT0[0m
+[1;32mFound battery "BAT0"[0m
+tint2: nb monitors 1, nb monitors used 1, nb desktops 10
+[1;34mtint2: panel 1 uses scale 1 [0m
+tint2: pixmap background detection failed
+tint2: Kernel uevent interface initialized...
+tint2: systray window 20971544
+[1;32mtint2: systray started[0m
+tint2: pixmap background detection failed
