@@ -56,4 +56,8 @@ nnoremap <leader>l :YcmCompleter GoToDefinition<CR>
 nnoremap <leader>j :YcmCompleter GoToDefinitionElseDeclaration<CR>
 let g:ycm_key_list_stop_completion = ['<C-y>']
 let g:ycm_max_num_candidates = 10
+let g:ycm_min_num_of_chars_for_completion = 1
 highlight Pmenu ctermfg=Blue ctermbg=Black
+
+" Prevent YouCompleteMe from hijacking arrow key
+inoremap <expr> <up> pumvisible() ? '<c-e><up>' : '<up>'
