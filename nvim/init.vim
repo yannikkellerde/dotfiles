@@ -51,6 +51,7 @@ call plug#begin()
 	"Plug 'python-mode/python-mode'
 	"Plug 'vim-scripts/html-improved-indentation'
 	Plug 'vim-scripts/JavaScript-Indent'
+	Plug 'mkitt/tabline.vim'
 call plug#end()
 let g:ale_enabled = 1
 let g:SimpylFold_fold_docstring = 0
