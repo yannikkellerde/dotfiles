@@ -3,6 +3,10 @@
 XF86MonBrightness{Up,Down}
 	brightnessctl s 10000{+,-}
 
+
+super + {f2,f3}
+	brightnessctl s 1000{+,-}
+
 # Changing the Volume
 
 XF86Audio{Raise,Lower}Volume
@@ -11,13 +15,24 @@ XF86Audio{Raise,Lower}Volume
 XF86AudioMute
 	pulsemixer --toggle-mute
 
+# Caps lock
+shift + Caps_Lock
+	xdotool key Caps_Lock
+
 
 # wm independent hotkeys
 
+# run single command
+super + r
+	bashrun2
 
 # terminal emulator
-super + {Return, r}
+super + Return
 	alacritty
+
+# open firefox
+super + z 
+	firefox
 
 # program launcher
 super + @space

@@ -13,7 +13,6 @@ bspc config borderless_monocle   true
 bspc config gapless_monocle      true
 
 bspc rule -a Gimp desktop='^6' state=floating follow=on
-bspc rule -a firefox desktop='^2' state=frame
 bspc rule -a discord state=floating center=on rectangle=1600x900+0+0
 bspc rule -a thunderbird state=floating center=on rectangle=1600x900+0+0
 bspc rule -a mplayer2 state=floating
@@ -30,16 +29,27 @@ dunst&
 feh --bg-scale ~/Pictures/peakpx.jpg
 floating_desktop.bash 5&
 floating_desktop.bash 6&
+bspc rule -a firefox desktop='^2' state=frame
 if ! pgrep -x "firefox" > \dev\null
 then
 	firefox&
 fi
-xinput set-prop "SYNA327F:00 06CB:CD4F Touchpad" "libinput Tapping Enabled" 1
-xinput set-prop "SYNA327F:00 06CB:CD4F Touchpad" "libinput Natural Scrolling Enabled" 1
-xinput set-prop  "SYNA327F:00 06CB:CD4F Touchpad" "libinput Accel Speed" 0.2
-xinput disable "SYNA327F:00 06CB:CD4F Touchpad"
+bspc -r firefox
+if xinput list | grep -q "SYNA327F:00 06CB:CD4F Touchpad"
+then
+	touchpad="SYNA327F:00 06CB:CD4F Touchpad"
+else
+	touchpad="Synaptics TM3407-002"
+fi
+xinput set-prop "$touchpad" "libinput Tapping Enabled" 1
+xinput set-prop "$touchpad" "libinput Natural Scrolling Enabled" 1
+xinput set-prop "$touchpad" "libinput Accel Speed" 0.2
+xinput disable "$touchpad"
 if ! pgrep -x "alacritty" > \dev\null
 then
 	alacritty&
 fi
 unclutter -idle 0.01 -root&
+timedatectl&
+xset dpms 0
+setxkbmap -option caps:escape # Caps lock -> escape
