@@ -5,6 +5,8 @@ let mapleader=","
 
 syntax on
 filetype plugin indent on
+nnoremap w <C-U>
+nnoremap q <C-D>
 noremap <silent> <C-S>          :update<CR>
 vnoremap <silent> <C-S>         <C-C>:update<CR>
 inoremap <silent> <C-S>         <C-O>:update<CR>
@@ -14,8 +16,7 @@ nnoremap <silent><leader>n <Esc>:nohlsearch<CR><Esc>
 nnoremap <silent> <C-A> <Esc>:NERDTreeToggle<CR><Esc>
 nnoremap <leader> <t> :tabm +1
 nnoremap <leader> <T> :tabm -1
-set pastetoggle=<C-x>
-
+set pastetoggle=<C-W>
 " search python functions
 map <leader>f :g/^\s*def<CR>
 
