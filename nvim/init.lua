@@ -35,6 +35,7 @@ require("packer").startup(function(use)
 	use "williamboman/nvim-lsp-installer"
 	use "windwp/nvim-autopairs"
 	use "https://git.sr.ht/~whynothugo/lsp_lines.nvim"
+	use "nickeb96/fish.vim"
 end)
 
 vim.o.clipboard = "unnamedplus"
@@ -66,7 +67,7 @@ vim.keymap.set("n", "<Leader>n", ":nohlsearch<CR>", { silent = true })
 vim.keymap.set("n", "k", "v:count == 0 ? \"gk\" : \"k\"", { expr = true, silent = true })
 vim.keymap.set("n", "j", "v:count == 0 ? \"gj\" : \"j\"", { expr = true, silent = true })
 vim.keymap.set("n", "<Leader>m", ":vsplit term://fish <CR>", { silent = true })
-vim.keymap.set("t", "<Leader><Esc>", "<C-\\><C-n>", { silent = true })
+vim.keymap.set("t", "<Esc>", "<C-\\><C-n>", { silent = true })
 vim.keymap.set("n", "<Leader>v", ":edit ~/.config/nvim/init.lua<CR>", { silent = true })
 -- vim.keymap.set("n", "<Leader>t", ":tabm +1<CR>", { silent=true })
 -- vim.keymap.set("n", "<Leader>T", ":tabm -1<CR>", { silent=true })
@@ -153,25 +154,21 @@ db.custom_center = {
 		icon = " ",
 		desc = "New File            ",
 		action = "DashboardNewFile",
-		shortcut = "SPC o",
 	},
 	{
 		icon = " ",
 		desc = "Browse Files        ",
 		action = "Telescope file_browser",
-		shortcut = "SPC n",
 	},
 	{
 		icon = " ",
 		desc = "Find File           ",
 		action = "Telescope find_files",
-		shortcut = "SPC f",
 	},
 	{
 		icon = " ",
 		desc = "Configure Neovim    ",
 		action = "edit ~/.config/nvim/init.lua",
-		shortcut = "SPC v",
 	},
 	{
 		icon = " ",
@@ -190,6 +187,22 @@ cmp.setup {
 		end,
 	},
 	mapping = cmp.mapping.preset.insert {
+		["<UP>"] =  cmp.mapping(function(fallback)
+			if cmp.visible() then
+				cmp.abort()
+				vim.cmd('call feedkeys("\\<UP>")')
+			else
+				fallback()
+			end
+		end, { "i", "s" }),
+		["<Down>"] =  cmp.mapping(function(fallback)
+			if cmp.visible() then
+				cmp.abort()
+				vim.cmd('call feedkeys("\\<DOWN>")')
+			else
+				fallback()
+			end
+		end, { "i", "s" }),
 		["<C-Space>"] = cmp.mapping.complete(),
 		["<CR>"] = cmp.mapping.confirm { behavior = cmp.ConfirmBehavior.Replace, select = true },
 		["<Tab>"] = cmp.mapping(function(fallback)
@@ -207,7 +220,7 @@ cmp.setup {
 			end
 		end, { "i", "s" }),
 	},
-	sources = { { name = "nvim_lsp" }, { name = "luasnip" } },
+	sources = { { name = "nvim_lsp", max_item_count = 5 }, { name = "luasnip", max_item_count = 5 } },
 }
 
 local servers = {
