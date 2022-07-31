@@ -1,4 +1,7 @@
 #! /bin/sh
+xrandr --output HDMI-0 --primary --left-of DVI-D-0
+bspc monitor HDMI-0 -d 1 2 3 4
+bspc monitor DVI-D-0 -d 5 6 7 8 9
 
 pgrep -x sxhkd > /dev/null || sxhkd &
 
@@ -12,7 +15,9 @@ bspc config split_ratio          0.52
 bspc config borderless_monocle   true
 bspc config gapless_monocle      true
 
+bspc rule -a XTerm state=floating
 bspc rule -a Gimp desktop='^6' state=floating follow=on
+bspc rule -a firefox desktop='^2'
 bspc rule -a discord state=floating center=on rectangle=1600x900+0+0
 bspc rule -a thunderbird state=floating center=on rectangle=1600x900+0+0
 bspc rule -a mplayer2 state=floating
@@ -26,30 +31,20 @@ export XDG_CONFIG_HOME=~/.config
 picom&
 bash ~/.config/polybar/launch.sh --forest
 dunst&
-feh --bg-scale ~/Pictures/peakpx.jpg
+feh --bg-scale ~/Pictures/peakpx.jpg --bg-scale ~/Pictures/walking_here.jpg
 floating_desktop.bash 5&
 floating_desktop.bash 6&
-bspc rule -a firefox desktop='^2' state=frame
-if ! pgrep -x "firefox" > \dev\null
-then
-	firefox&
-fi
-bspc -r firefox
-if xinput list | grep -q "SYNA327F:00 06CB:CD4F Touchpad"
-then
-	touchpad="SYNA327F:00 06CB:CD4F Touchpad"
-else
-	touchpad="Synaptics TM3407-002"
-fi
-xinput set-prop "$touchpad" "libinput Tapping Enabled" 1
-xinput set-prop "$touchpad" "libinput Natural Scrolling Enabled" 1
-xinput set-prop "$touchpad" "libinput Accel Speed" 0.2
-xinput disable "$touchpad"
 if ! pgrep -x "alacritty" > \dev\null
 then
 	alacritty&
 fi
-unclutter -idle 0.01 -root&
+if ! pgrep -x "firefox" > \dev\null
+then
+	firefox&
+fi
+xinput set-prop "SOAI USB Gaming Mouse" "libinput Accel Speed" -0.5
 timedatectl&
 xset dpms 0
 setxkbmap -option caps:escape # Caps lock -> escape
+bashrun2 hide&
+nohup rule_away > /dev/null 2>&1 &
