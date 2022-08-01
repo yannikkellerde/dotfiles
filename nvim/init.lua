@@ -50,8 +50,12 @@ vim.o.tabstop = 2
 vim.o.termguicolors = true
 vim.o.updatetime = 100
 vim.g.mapleader = ","
-vim.o.mouse = false
+vim.g.mouse = false
+vim.g.ttymouse = false
 
+
+vim.keymap.set("n",'""',':registers "0123456789abcdefghijklmnopqrstuvwxyz*+.<CR>',{ silent = true })
+vim.keymap.set("i","ö","<ESC>")
 vim.keymap.set("n","<C-J>","<C-W><C-J>")
 vim.keymap.set("n","<C-K>","<C-W><C-K>")
 vim.keymap.set("n","<C-L>","<C-W><C-L>")
@@ -67,7 +71,8 @@ vim.keymap.set("n", "<Leader>n", ":nohlsearch<CR>", { silent = true })
 vim.keymap.set("n", "k", "v:count == 0 ? \"gk\" : \"k\"", { expr = true, silent = true })
 vim.keymap.set("n", "j", "v:count == 0 ? \"gj\" : \"j\"", { expr = true, silent = true })
 vim.keymap.set("n", "<Leader>m", ":vsplit term://fish <CR>", { silent = true })
-vim.keymap.set("t", "<Esc>", "<C-\\><C-n>", { silent = true })
+vim.keymap.set("t", "<Esc><Esc>", "<C-\\><C-n>", { silent = true })
+vim.keymap.set("t", "ö", "<C-\\><C-n>", { silent = true })
 vim.keymap.set("n", "<Leader>v", ":edit ~/.config/nvim/init.lua<CR>", { silent = true })
 -- vim.keymap.set("n", "<Leader>t", ":tabm +1<CR>", { silent=true })
 -- vim.keymap.set("n", "<Leader>T", ":tabm -1<CR>", { silent=true })
@@ -76,7 +81,6 @@ vim.keymap.set("v", "<C-S>", "<C-C>:update<CR>", { silent=true })
 vim.keymap.set("i", "<C-S>", "<C-O>:update<CR>", { silent=true })
 vim.keymap.set("n", "w", "<C-U>", { silent=true })
 vim.keymap.set("n", "q", "<C-D>", { silent=true })
-vim.keymap.set("n", "w", "<C-U>", { silent=true })
 
 
 local lang_maps = {
@@ -189,6 +193,7 @@ cmp.setup {
 	mapping = cmp.mapping.preset.insert {
 		["<UP>"] =  cmp.mapping(function(fallback)
 			if cmp.visible() then
+				cmp.confirm()
 				cmp.abort()
 				vim.cmd('call feedkeys("\\<UP>")')
 			else
@@ -197,6 +202,7 @@ cmp.setup {
 		end, { "i", "s" }),
 		["<Down>"] =  cmp.mapping(function(fallback)
 			if cmp.visible() then
+				cmp.confirm()
 				cmp.abort()
 				vim.cmd('call feedkeys("\\<DOWN>")')
 			else
@@ -204,7 +210,7 @@ cmp.setup {
 			end
 		end, { "i", "s" }),
 		["<C-Space>"] = cmp.mapping.complete(),
-		["<CR>"] = cmp.mapping.confirm { behavior = cmp.ConfirmBehavior.Replace, select = true },
+		-- ["<CR>"] = cmp.mapping.confirm { behavior = cmp.ConfirmBehavior.Replace, select = true },
 		["<Tab>"] = cmp.mapping(function(fallback)
 			if cmp.visible() then
 				cmp.select_next_item()
@@ -360,10 +366,10 @@ telescope.setup {
 	extensions = { file_browser = { hidden = true } },
 }
 telescope.load_extension "file_browser"
-vim.keymap.set("n", "<Leader>c", telescope.extensions.file_browser.file_browser)
+vim.keymap.set("n", "<Leader>ö", telescope.extensions.file_browser.file_browser)
 vim.keymap.set("n", "<C-A>", telescope.extensions.file_browser.file_browser)
-vim.keymap.set("n", "<Leader>x", require("telescope.builtin").find_files)
-vim.keymap.set("n", "<Leader>y", require("telescope.builtin").treesitter)
+vim.keymap.set("n", "<Leader>ü", require("telescope.builtin").find_files)
+vim.keymap.set("n", "<Leader>ä", require("telescope.builtin").treesitter)
 
 require("nvim-treesitter.configs").setup {
 	ensure_installed = {
