@@ -390,4 +390,5 @@ vim.keymap.set({ "n", "v" }, "<Leader>.", ":Commentary<CR>", { silent = true })
 require("nvim-autopairs").setup {}
 
 require("lsp_lines").setup {}
-vim.keymap.set("n", "<Leader>z", require("lsp_lines").toggle)
+require("lsp_lines").toggle()
+vim.keymap.set("n", "<Leader>-", require("lsp_lines").toggle)
