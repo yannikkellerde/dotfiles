@@ -343,6 +343,7 @@ require("lualine").setup {
 				"tabs",
 				max_length=vim.o.columns,
 				mode=2,
+				max_length=vim.o.columns,
 				separator = { left = "", right = "" },
 				right_padding = 2,
 				symbols = { alternate_file = "" },
