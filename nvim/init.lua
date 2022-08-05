@@ -340,7 +340,8 @@ require("lualine").setup {
 	tabline = {
 		lualine_a = {
 			{
-				"buffers",
+				"tabs",
+				mode=2,
 				separator = { left = "", right = "" },
 				right_padding = 2,
 				symbols = { alternate_file = "" },
