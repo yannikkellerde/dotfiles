@@ -79,8 +79,8 @@ vim.keymap.set("n", "<Leader>v", ":edit ~/.config/nvim/init.lua<CR>", { silent =
 vim.keymap.set("n", "<C-S>", ":update<CR>", { silent=true })
 vim.keymap.set("v", "<C-S>", "<C-C>:update<CR>", { silent=true })
 vim.keymap.set("i", "<C-S>", "<C-O>:update<CR>", { silent=true })
-vim.keymap.set("n", "w", "<C-U>", { silent=true })
-vim.keymap.set("n", "q", "<C-D>", { silent=true })
+vim.keymap.set("n", "w", "<C-U>zz", { silent=true })
+vim.keymap.set("n", "q", "<C-D>zz", { silent=true })
 
 
 local lang_maps = {
@@ -341,6 +341,7 @@ require("lualine").setup {
 		lualine_a = {
 			{
 				"tabs",
+				max_length=vim.o.columns,
 				mode=2,
 				separator = { left = "", right = "" },
 				right_padding = 2,
