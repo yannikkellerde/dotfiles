@@ -53,7 +53,7 @@ vim.g.mapleader = ","
 vim.g.mouse = false
 vim.g.ttymouse = false
 
-
+vim.keymap.set("n",'°','$')
 vim.keymap.set("n",'""',':registers "0123456789abcdefghijklmnopqrstuvwxyz*+.<CR>',{ silent = true })
 vim.keymap.set("i","ö","<ESC>")
 vim.keymap.set("n","<C-J>","<C-W><C-J>")
@@ -370,6 +370,9 @@ telescope.setup {
 telescope.load_extension "file_browser"
 vim.keymap.set("n", "<Leader>ö", telescope.extensions.file_browser.file_browser)
 vim.keymap.set("n", "<C-A>", telescope.extensions.file_browser.file_browser)
+vim.keymap.set("n", "ü", "<C-I>")
+vim.keymap.set("n", "ä", "<C-O>")
+
 vim.keymap.set("n", "<Leader>ü", require("telescope.builtin").find_files)
 vim.keymap.set("n", "<Leader>ä", require("telescope.builtin").treesitter)
 
