@@ -53,7 +53,15 @@ vim.g.mapleader = ","
 vim.g.mouse = false
 vim.g.ttymouse = false
 
+vim.keymap.set("n","<Leader>{","ciw{}<Esc>P")
+vim.keymap.set("n","<Leader>(","ciw()<Esc>P")
+vim.keymap.set("n","<Leader>[","ciw[]<Esc>P")
+vim.keymap.set("n","<Leader>'","ciw''<Esc>P")
+vim.keymap.set("n",'<Leader>"','ciw""<Esc>P')
+vim.keymap.set("n",'<','<<')
+vim.keymap.set("n",'>','>>')
 vim.keymap.set("n",'°','$')
+vim.keymap.set("n",'Q','$')
 vim.keymap.set("n",'""',':registers "0123456789abcdefghijklmnopqrstuvwxyz*+.<CR>',{ silent = true })
 vim.keymap.set("i","ö","<ESC>")
 vim.keymap.set("n","<C-J>","<C-W><C-J>")
@@ -81,6 +89,8 @@ vim.keymap.set("v", "<C-S>", "<C-C>:update<CR>", { silent=true })
 vim.keymap.set("i", "<C-S>", "<C-O>:update<CR>", { silent=true })
 vim.keymap.set("n", "w", "<C-U>zz", { silent=true })
 vim.keymap.set("n", "q", "<C-D>zz", { silent=true })
+vim.keymap.set("v", "w", "<C-U>zz", { silent=true })
+vim.keymap.set("v", "q", "<C-D>zz", { silent=true })
 
 
 local lang_maps = {
@@ -370,8 +380,8 @@ telescope.setup {
 telescope.load_extension "file_browser"
 vim.keymap.set("n", "<Leader>ö", telescope.extensions.file_browser.file_browser)
 vim.keymap.set("n", "<C-A>", telescope.extensions.file_browser.file_browser)
-vim.keymap.set("n", "ü", "<C-I>")
-vim.keymap.set("n", "ä", "<C-O>")
+vim.keymap.set("n", "ü", "<C-I>zz")
+vim.keymap.set("n", "ä", "<C-O>zz")
 
 vim.keymap.set("n", "<Leader>ü", require("telescope.builtin").find_files)
 vim.keymap.set("n", "<Leader>ä", require("telescope.builtin").treesitter)
