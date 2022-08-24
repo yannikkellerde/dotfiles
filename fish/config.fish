@@ -256,5 +256,6 @@ end
 set fish_greeting
 
 alias conda='source /home/kappablanca/bin/conda_activate.fish && conda'
-bind \e accept-autosuggestion
-
+fish_vi_key_bindings
+bind -M default ö accept-autosuggestion
+bind -M insert ö accept-autosuggestion
