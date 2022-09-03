@@ -53,6 +53,14 @@ vim.g.mapleader = ","
 vim.g.mouse = false
 vim.g.ttymouse = false
 
+vim.keymap.set("n","<Space>l",":bnext<CR>")
+vim.keymap.set("n","<Space>m",":bmod<CR>")
+vim.keymap.set("n","<Space>h",":bprevious<CR>")
+vim.keymap.set("n","<Space>q",":bp <BAR> bd #<CR>")
+vim.keymap.set("n","<Space>b",":ls<CR>")
+vim.keymap.set("n","<Space>vb",":ls<cr>:vertical sb<space>")
+vim.keymap.set("n","<Space>sb",":ls<cr>:sb<space>")
+
 vim.keymap.set("n","<Leader>{","ciw{}<Esc>P")
 vim.keymap.set("n","<Leader>(","ciw()<Esc>P")
 vim.keymap.set("n","<Leader>[","ciw[]<Esc>P")
@@ -350,7 +358,7 @@ require("lualine").setup {
 	tabline = {
 		lualine_a = {
 			{
-				"tabs",
+				"buffers",
 				mode=2,
 				max_length=vim.o.columns,
 				separator = { left = "", right = "" },
@@ -393,6 +401,7 @@ require("nvim-treesitter.configs").setup {
 		"css",
 		"go",
 		"html",
+		"javascript",
 		"lua",
 		"make",
 		"python",
