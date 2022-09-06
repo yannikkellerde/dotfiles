@@ -52,14 +52,21 @@ vim.o.updatetime = 100
 vim.g.mapleader = ","
 vim.g.mouse = false
 vim.g.ttymouse = false
+for i=1,9,1 do
+	vim.keymap.set("n",tostring(i).."<Space>".."l",":"..string.rep("bnext|",i).."<CR>",{ silent = true })
+	vim.keymap.set("n",tostring(i).."<Space>".."h",":"..string.rep("bprevious|",i).."<CR>",{ silent = true })
+	vim.keymap.set("n",tostring(i).."<Space>".."t",":bfirst|"..string.rep("bnext|",i-1).."<CR>",{ silent = true })
+end
 
-vim.keymap.set("n","<Space>l",":bnext<CR>")
-vim.keymap.set("n","<Space>m",":bmod<CR>")
-vim.keymap.set("n","<Space>h",":bprevious<CR>")
-vim.keymap.set("n","<Space>q",":bp <BAR> bd #<CR>")
-vim.keymap.set("n","<Space>b",":ls<CR>")
-vim.keymap.set("n","<Space>vb",":ls<cr>:vertical sb<space>")
-vim.keymap.set("n","<Space>sb",":ls<cr>:sb<space>")
+vim.keymap.set("n","<Space>l",":bnext<CR>", { silent = true})
+vim.keymap.set("n","<Space>m",":bmod<CR>", { silent = true})
+vim.keymap.set("n","<Space>h",":bprevious<CR>", { silent = true})
+vim.keymap.set("n","<Space>q",":bp <BAR> bd #<CR>", { silent = true})
+vim.keymap.set("n","<Space>z","ZZ", { silent = true})
+vim.keymap.set("n","<Space>b",":ls<CR>", { silent = true})
+vim.keymap.set("n","<Space>vb",":ls<cr>:vertical sb<space>", { silent = true})
+vim.keymap.set("n","<Space>sb",":ls<cr>:sb<space>", { silent = true})
+vim.keymap.set("n","<Space><Space>","i<Space><Esc>",{ silent = true})
 
 vim.keymap.set("n","<Leader>{","ciw{}<Esc>P")
 vim.keymap.set("n","<Leader>(","ciw()<Esc>P")
@@ -388,6 +395,7 @@ telescope.setup {
 telescope.load_extension "file_browser"
 vim.keymap.set("n", "<Leader>ö", telescope.extensions.file_browser.file_browser)
 vim.keymap.set("n", "<C-A>", telescope.extensions.file_browser.file_browser)
+vim.keymap.set("i", "<C-A>", telescope.extensions.file_browser.file_browser)
 vim.keymap.set("n", "ü", "<C-I>zz")
 vim.keymap.set("n", "ä", "<C-O>zz")
 
