@@ -61,12 +61,11 @@ end
 vim.keymap.set("n","<Space>l",":bnext<CR>", { silent = true})
 vim.keymap.set("n","<Space>m",":bmod<CR>", { silent = true})
 vim.keymap.set("n","<Space>h",":bprevious<CR>", { silent = true})
-vim.keymap.set("n","<Space>q",":bp <BAR> bd #<CR>", { silent = true})
+vim.keymap.set("n","<Space>q",":bp <BAR> bd #|bnext<CR>", { silent = true})
 vim.keymap.set("n","<Space>z","ZZ", { silent = true})
 vim.keymap.set("n","<Space>b",":ls<CR>", { silent = true})
 vim.keymap.set("n","<Space>vb",":ls<cr>:vertical sb<space>", { silent = true})
 vim.keymap.set("n","<Space>sb",":ls<cr>:sb<space>", { silent = true})
-vim.keymap.set("n","<Space><Space>","i<Space><Esc>",{ silent = true})
 
 vim.keymap.set("n","<Leader>{","ciw{}<Esc>P")
 vim.keymap.set("n","<Leader>(","ciw()<Esc>P")
