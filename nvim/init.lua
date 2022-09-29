@@ -33,7 +33,6 @@ require("packer").startup(function(use)
 	use "simrat39/rust-tools.nvim"
 	use "tpope/vim-commentary"
 	use "williamboman/nvim-lsp-installer"
-	use "windwp/nvim-autopairs"
 	use "https://git.sr.ht/~whynothugo/lsp_lines.nvim"
 	use "nickeb96/fish.vim"
 	use 'nvim-treesitter/nvim-treesitter-context'
@@ -77,6 +76,7 @@ vim.keymap.set("v","g<Space>x","g<C-x>")
 vim.keymap.set("v","g<Space>a","g<C-a>")
 vim.keymap.set("n","<Space>x","<C-x>")
 vim.keymap.set("n","<Space>a","<C-a>")
+
 vim.keymap.set("n","<Leader>m",":TSContextToggle<CR>", {silent = true})
 vim.keymap.set("n","<Leader>s",":mksession! editing.vim<CR>")
 vim.keymap.set("n","<Leader>{","ciw{}<Esc>P")
@@ -84,6 +84,13 @@ vim.keymap.set("n","<Leader>(","ciw()<Esc>P")
 vim.keymap.set("n","<Leader>[","ciw[]<Esc>P")
 vim.keymap.set("n","<Leader>'","ciw''<Esc>P")
 vim.keymap.set("n",'<Leader>"','ciw""<Esc>P')
+vim.keymap.set("v","<Leader>{","c{}<Esc>P")
+vim.keymap.set("v","<Leader>(","c()<Esc>P")
+vim.keymap.set("v","<Leader>[","c[]<Esc>P")
+vim.keymap.set("v","<Leader>'","c''<Esc>P")
+vim.keymap.set("v",'<Leader>"','c""<Esc>P')
+vim.keymap.set("n","<Leader>b","ciwself.<Esc>p")
+
 vim.keymap.set("n","<Space>{","C{}<Esc>P")
 vim.keymap.set("n","<Space>(","C()<Esc>P")
 vim.keymap.set("n","<Space>[","C[]<Esc>P")
@@ -116,8 +123,6 @@ vim.keymap.set("n", "<Leader>t", ":e term://fish <CR>", { silent = true })
 vim.keymap.set("t", "<Esc><Esc>", "<C-\\><C-n>", { silent = true })
 vim.keymap.set("t", "ö", "<C-\\><C-n>", { silent = true })
 vim.keymap.set("n", "<Leader>v", ":edit ~/.config/nvim/init.lua<CR>", { silent = true })
--- vim.keymap.set("n", "<Leader>t", ":tabm +1<CR>", { silent=true })
--- vim.keymap.set("n", "<Leader>T", ":tabm -1<CR>", { silent=true })
 vim.keymap.set("n", "<C-S>", ":update<CR>", { silent=true })
 vim.keymap.set("v", "<C-S>", "<C-C>:update<CR>", { silent=true })
 vim.keymap.set("i", "<C-S>", "<C-O>:update<CR>", { silent=true })
@@ -455,7 +460,7 @@ require("rust-tools").setup {}
 
 vim.keymap.set({ "n", "v" }, "<Leader>.", ":Commentary<CR>", { silent = true })
 
-require("nvim-autopairs").setup {}
+-- require("nvim-autopairs").setup {}
 
 require("lsp_lines").setup {}
 require("lsp_lines").toggle()
