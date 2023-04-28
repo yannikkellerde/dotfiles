@@ -21,8 +21,8 @@ require("packer").startup(function(use)
 	use "jose-elias-alvarez/null-ls.nvim"
 	use "kyazdani42/nvim-web-devicons"
 	use "L3MON4D3/LuaSnip"
-	use "lewis6991/gitsigns.nvim"
 	use "neovim/nvim-lspconfig"
+	use "lewis6991/gitsigns.nvim"
 	use "nvim-lua/plenary.nvim"
   use "nvim-lualine/lualine.nvim"
 	use "nvim-telescope/telescope.nvim"
@@ -33,7 +33,8 @@ require("packer").startup(function(use)
 	use "saadparwaiz1/cmp_luasnip"
 	use "simrat39/rust-tools.nvim"
 	use "tpope/vim-commentary"
-	use "williamboman/nvim-lsp-installer"
+	use {"williamboman/mason.nvim", run = ":MasonUpdate"}
+	use {"williamboman/mason-lspconfig.nvim"}
 	use "https://git.sr.ht/~whynothugo/lsp_lines.nvim"
 	use "nickeb96/fish.vim"
 	use 'nvim-treesitter/nvim-treesitter-context'
@@ -292,48 +293,88 @@ local servers = {
 	"html",
 	"pyright",
 	"rust_analyzer",
-	"sumneko_lua",
+	"lua_ls",
 	"tailwindcss",
 	"tsserver",
 }
-local has_formatter = { "gopls", "html", "rust_analyzer", "sumneko_lua", "tsserver" }
-for _, name in pairs(servers) do
-	local found, server = require("nvim-lsp-installer").get_server(name)
-	if found and not server:is_installed() then
-		print("Installing " .. name)
-		server:install()
+
+require("mason").setup({
+    ui = {
+        icons = {
+            package_installed = "✓",
+            package_pending = "➜",
+            package_uninstalled = "✗"
+        }
+    }
+})
+local has_formatter = { "gopls", "html", "rust_analyzer", "lua_ls", "tsserver" }
+mason_lspconfig = require("mason-lspconfig")
+mason_lspconfig.setup{ensure_installed=servers}
+on_attach = function(client, bufnr)
+	vim.api.nvim_buf_set_option(bufnr, "omnifunc", "v:lua.vim.lsp.omnifunc")
+	local opts = { buffer = bufnr }
+	vim.keymap.set("n", "<Leader>p", vim.lsp.buf.hover, opts)
+	vim.keymap.set("n", "<Leader>i", vim.lsp.buf.definition, opts)
+	vim.keymap.set("n", "<Leader>r", vim.lsp.buf.rename, opts)
+	local should_format = true
+	for _, value in pairs(has_formatter) do
+		if client.name == value then
+			should_format = false
+		end
+	end
+	if not should_format then
+		client.server_capabilities.document_formatting = false
 	end
 end
-local setup_server = {
-	sumneko_lua = function(opts)
-		opts.settings = { Lua = { diagnostics = { globals = { "vim" } } } }
-	end,
-}
-require("nvim-lsp-installer").on_server_ready(function(server)
-	local opts = {
-		on_attach = function(client, bufnr)
-			vim.api.nvim_buf_set_option(bufnr, "omnifunc", "v:lua.vim.lsp.omnifunc")
-			local opts = { buffer = bufnr }
-			vim.keymap.set("n", "<Leader>p", vim.lsp.buf.hover, opts)
-			vim.keymap.set("n", "<Leader>i", vim.lsp.buf.definition, opts)
-			vim.keymap.set("n", "<Leader>r", vim.lsp.buf.rename, opts)
-			local should_format = true
-			for _, value in pairs(has_formatter) do
-				if client.name == value then
-					should_format = false
-				end
-			end
-			if not should_format then
-				client.server_capabilities.document_formatting = false
-			end
-		end,
-		capabilities = require("cmp_nvim_lsp").update_capabilities(vim.lsp.protocol.make_client_capabilities()),
-	}
-	if setup_server[server.name] then
-		setup_server[server.name](opts)
+
+mason_lspconfig.setup_handlers({
+	function (server_name)
+		require("lspconfig")[server_name].setup{
+			on_attach = on_attach,
+		}
 	end
-	server:setup(opts)
-end)
+})
+
+--- local has_formatter = { "gopls", "html", "rust_analyzer", "lua_ls", "tsserver" }
+--- for _, name in pairs(servers) do
+--- 	local found, server = require("mason").get_server(name)
+--- 	if found and not server:is_installed() then
+--- 		print("Installing " .. name)
+--- 		server:install()
+--- 	end
+--- end
+---  
+--- 
+--- local setup_server = {
+--- 	lua_ls = function(opts)
+--- 		opts.settings = { Lua = { diagnostics = { globals = { "vim" } } } }
+--- 	end,
+--- }
+--- require("mason").on_server_ready(function(server)
+--- 	local opts = {
+--- 		on_attach = function(client, bufnr)
+--- 			vim.api.nvim_buf_set_option(bufnr, "omnifunc", "v:lua.vim.lsp.omnifunc")
+--- 			local opts = { buffer = bufnr }
+--- 			vim.keymap.set("n", "<Leader>p", vim.lsp.buf.hover, opts)
+--- 			vim.keymap.set("n", "<Leader>i", vim.lsp.buf.definition, opts)
+--- 			vim.keymap.set("n", "<Leader>r", vim.lsp.buf.rename, opts)
+--- 			local should_format = true
+--- 			for _, value in pairs(has_formatter) do
+--- 				if client.name == value then
+--- 					should_format = false
+--- 				end
+--- 			end
+--- 			if not should_format then
+--- 				client.server_capabilities.document_formatting = false
+--- 			end
+--- 		end,
+--- 		capabilities = require("cmp_nvim_lsp").default_capabilities(vim.lsp.protocol.make_client_capabilities()),
+--- 	}
+--- 	if setup_server[server.name] then
+--- 		setup_server[server.name](opts)
+--- 	end
+--- 	server:setup(opts)
+--- end)
 
 local null_ls = require "null-ls"
 null_ls.setup {
