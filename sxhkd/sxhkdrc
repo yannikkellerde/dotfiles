@@ -1,5 +1,12 @@
 # No super hotkeys
 
+Print
+	flameshot gui
+shift + Print
+	flameshot gui -p ~/screenshots
+ctrl + Print
+	flameshot full -p ~/screenshots
+
 XF86MonBrightness{Up,Down}
 	brightnessctl s 10000{+,-}
 
@@ -7,6 +14,8 @@ XF86MonBrightness{Up,Down}
 super + {f2,f3}
 	brightnessctl s 1000{+,-}
 
+super + XF86MonBrightness{Up,Down}
+	brightnessctl s 1000{+,-}
 # Changing the Volume
 
 XF86Audio{Raise,Lower}Volume
@@ -45,6 +54,8 @@ super + Escape
 #
 # bspwm hotkeys
 #
+super + alt + b
+	bash ~/.config/bspwm/bspwmrc
 
 # quit/restart bspwm
 super + alt + {q,r}
@@ -166,5 +177,8 @@ super + {Left,Down,Up,Right}
 super + alt + d
 	toggle_scratchpad discord &
 
-#super + alt + t
-#	toggle_scratchpad alacritty&
+super + alt + Return
+	toggle_scratchpad kitty &
+
+super + alt + t
+	toggle_scratchpad thunderbird&
