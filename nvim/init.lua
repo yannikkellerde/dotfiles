@@ -11,6 +11,7 @@ vim.api.nvim_create_autocmd(
 )
 
 require("packer").startup(function(use)
+	use "mechatroner/rainbow_csv"
 	use "wbthomason/packer.nvim"
 	use "andweeb/presence.nvim"
 	use { "catppuccin/nvim", as = "catppuccin" }
@@ -37,8 +38,6 @@ require("packer").startup(function(use)
 	use "nickeb96/fish.vim"
 	use 'nvim-treesitter/nvim-treesitter-context'
 	use 'lervag/vimtex'
-	-- use 'vijaymarupudi/nvim-fzf'
-
 end)
 
 vim.o.clipboard = "unnamedplus"
@@ -61,40 +60,29 @@ for i=1,9,1 do
 	vim.keymap.set("n",tostring(i).."<Space>".."t",":bfirst|"..string.rep("bnext|",i-1).."<CR>",{ silent = true })
 end
 
-vim.keymap.set("n", "<Space>f", vim.lsp.buf.code_action)
-vim.keymap.set("n", "<Space>k", "K")
-vim.keymap.set("n", "<Space>i", "<C-I>zz")
-vim.keymap.set("n", "<Space>o", "<C-O>zz")
-vim.keymap.set("n","<Space>z","<C-6>", { silent = true})
+vim.keymap.set("n","+","ddko")
+vim.keymap.set("n","cr","cf_")
+vim.keymap.set("n","dr","df_")
 vim.keymap.set("n","<Space>l",":bnext<CR>", { silent = true})
 vim.keymap.set("n","<Space>m",":bmod<CR>", { silent = true})
 vim.keymap.set("n","<Space>h",":bprevious<CR>", { silent = true})
 vim.keymap.set("n","<Space>q",":bp <BAR> bd #|bnext<CR>", { silent = true})
-vim.keymap.set("n","<Space>b",":ls<CR>", { silent = true})
+vim.keymap.set("n","<Space>Q",":%bd|e#<CR>", { silent = true})
+vim.keymap.set("n","<Space>z","ZZ", { silent = true})
+vim.keymap.set("n","<Space>b",":ls<cr>:b<space>", { silent = true})
+vim.keymap.set("n","<Leader>b",":b#<CR>", { silent = true})
 vim.keymap.set("n","<Space>vb",":ls<cr>:vertical sb<space>", { silent = true})
 vim.keymap.set("n","<Space>sb",":ls<cr>:sb<space>", { silent = true})
 
-vim.keymap.set("v","<Space>r", "\"hy:%s/<C-r>h//g<left><left>")
-vim.keymap.set("v","<Space>s",function()
-     return "y:.,.+" .. vim.v.count .. "s/<C-R>+/" end, {expr = true})
 vim.keymap.set("v","<Space>x","<C-x>")
 vim.keymap.set("v","<Space>a","<C-a>")
 vim.keymap.set("v","g<Space>x","g<C-x>")
 vim.keymap.set("v","g<Space>a","g<C-a>")
 vim.keymap.set("n","<Space>x","<C-x>")
 vim.keymap.set("n","<Space>a","<C-a>")
-vim.keymap.set("n","<Leader><Space>q",":%bd|e#<CR>")
 
-vim.keymap.set("n","<Space>{","C{}<Esc>P")
-vim.keymap.set("n","<Space>(","C()<Esc>P")
-vim.keymap.set("n","<Space>[","C[]<Esc>P")
-vim.keymap.set("n","<Space>'","C''<Esc>P")
-vim.keymap.set("n",'<Space>"','C""<Esc>P')
-vim.keymap.set("v","<Space>p",'"9dP"')
-
-vim.keymap.set("n","<Leader>c",":VimtexCompile<CR>")
-vim.keymap.set("n","<Leader>e",":VimtexView<CR>")
 vim.keymap.set("n","<Leader>m",":TSContextToggle<CR>", {silent = true})
+vim.keymap.set("n","<Leader>f",vim.lsp.buf.code_action)
 vim.keymap.set("n","<Leader>s",":mksession! editing.vim<CR>")
 vim.keymap.set("n","<Leader>{","ciw{}<Esc>P")
 vim.keymap.set("n","<Leader>(","ciw()<Esc>P")
@@ -107,17 +95,19 @@ vim.keymap.set("v","<Leader>[","c[]<Esc>P")
 vim.keymap.set("v","<Leader>'","c''<Esc>P")
 vim.keymap.set("v",'<Leader>"','c""<Esc>P')
 
-vim.keymap.set("n","+","ddko")
-vim.keymap.set("n","cr","cf_")
-vim.keymap.set("n","dr","df_")
-
-vim.keymap.set("v","//","y/\\V<C-r>\"<CR>")
+vim.keymap.set("n","<Space>{","C{}<Esc>P")
+vim.keymap.set("n","<Space>(","C()<Esc>P")
+vim.keymap.set("n","<Space>[","C[]<Esc>P")
+vim.keymap.set("n","<Space>'","C''<Esc>P")
+vim.keymap.set("n",'<Space>"','C""<Esc>P')
+vim.keymap.set("v","<Space>p",'"9dP"')
 vim.keymap.set("n",'<','<<')
 vim.keymap.set("n",'>','>>')
 vim.keymap.set("n",'°','$')
 vim.keymap.set("n",'Q','$')
 vim.keymap.set("v",'Q','$')
 vim.keymap.set("n",'""',':registers "0123456789abcdefghijklmnopqrstuvwxyz*+.<CR>',{ silent = true })
+-- vim.keymap.set("i","ö","<ESC>")
 vim.keymap.set("n","<C-J>","<C-W><C-J>")
 vim.keymap.set("n","<C-K>","<C-W><C-K>")
 vim.keymap.set("n","<C-L>","<C-W><C-L>")
@@ -133,6 +123,7 @@ vim.keymap.set("n", "j", "v:count == 0 ? \"gj\" : \"j\"", { expr = true, silent 
 vim.keymap.set("n", "<Leader>T", ":vsplit term://fish <CR>", { silent = true })
 vim.keymap.set("n", "<Leader>t", ":e term://fish <CR>", { silent = true })
 vim.keymap.set("t", "<Esc><Esc>", "<C-\\><C-n>", { silent = true })
+vim.keymap.set("t", "ö", "<C-\\><C-n>", { silent = true })
 vim.keymap.set("n", "<Leader>v", ":edit ~/.config/nvim/init.lua<CR>", { silent = true })
 vim.keymap.set("n", "<C-S>", ":update<CR>", { silent=true })
 vim.keymap.set("v", "<C-S>", "<C-C>:update<CR>", { silent=true })
@@ -290,7 +281,7 @@ cmp.setup {
 			end
 		end, { "i", "s" }),
 	},
-	sources = { { name = "nvim_lsp", max_item_count = 10 }, { name = "luasnip", max_item_count = 10 } },
+	sources = { { name = "nvim_lsp", max_item_count = 5 }, { name = "luasnip", max_item_count = 5 } },
 }
 
 local servers = {
@@ -336,7 +327,7 @@ require("nvim-lsp-installer").on_server_ready(function(server)
 				client.server_capabilities.document_formatting = false
 			end
 		end,
-		capabilities = require("cmp_nvim_lsp").update_capabilities(vim.lsp.protocol.make_client_capabilities()),
+		capabilities = require("cmp_nvim_lsp").default_capabilities(vim.lsp.protocol.make_client_capabilities()),
 	}
 	if setup_server[server.name] then
 		setup_server[server.name](opts)
@@ -435,26 +426,18 @@ telescope.load_extension "file_browser"
 vim.keymap.set("n", "<Leader>ö", telescope.extensions.file_browser.file_browser)
 vim.keymap.set("n", "<C-A>", telescope.extensions.file_browser.file_browser)
 vim.keymap.set("i", "<C-A>", telescope.extensions.file_browser.file_browser)
+vim.keymap.set("n", "<Space>i", "<C-I>zz")
+vim.keymap.set("n", "<Space>o", "<C-O>zz")
 vim.keymap.set("n", "ü", "<C-Y>k")
 vim.keymap.set("n", "ä", "<C-E>j")
 vim.keymap.set("n", "K", "<C-Y>k")
 vim.keymap.set("n", "J", "<C-E>j")
 vim.keymap.set("v", "K", "<C-Y>k")
 vim.keymap.set("v", "J", "<C-E>j")
+vim.keymap.set("n", "<Space>k", "K")
 
 vim.keymap.set("n", "<Leader>ü", require("telescope.builtin").find_files)
 vim.keymap.set("n", "<Leader>ä", require("telescope.builtin").treesitter)
-
-
--- local fzf = require("fzf")
-
--- coroutine.wrap(function()
---   local result = fzf.fzf({"choice 1", "choice 2"}, "--ansi")
---   -- result is a list of lines that fzf returns, if the user has chosen
---   if result then
---     print(result[1])
---   end
--- end)()
 
 require("nvim-treesitter.configs").setup {
 	ensure_installed = {
@@ -471,7 +454,6 @@ require("nvim-treesitter.configs").setup {
 		"tsx",
 		"typescript",
 		"yaml",
-		-- "latex",
 	},
 	highlight = { enable = true },
 }
@@ -485,7 +467,3 @@ vim.keymap.set({ "n", "v" }, "<Leader>.", ":Commentary<CR>", { silent = true })
 require("lsp_lines").setup {}
 require("lsp_lines").toggle()
 vim.keymap.set("n", "<Leader>-", require("lsp_lines").toggle)
-
-vim.g.vimtex_view_general_viewer = 'okular'
-vim.g.vimtex_view_general_options = '--unique file:@pdf\\#src:@line@tex'
--- vim.g.vimtex_compiler_method = 'latexrun'
