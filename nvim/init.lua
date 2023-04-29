@@ -119,10 +119,10 @@ vim.keymap.set("n",'°','$')
 vim.keymap.set("n",'Q','$')
 vim.keymap.set("v",'Q','$')
 vim.keymap.set("n",'""',':registers "0123456789abcdefghijklmnopqrstuvwxyz*+.<CR>',{ silent = true })
-vim.keymap.set("n","<C-J>","<C-W><C-J>")
-vim.keymap.set("n","<C-K>","<C-W><C-K>")
-vim.keymap.set("n","<C-L>","<C-W><C-L>")
-vim.keymap.set("n","<C-H>","<C-W><C-H>")
+vim.keymap.set("n","<C-down>","<C-W><C-J>")
+vim.keymap.set("n","<C-up>","<C-W><C-K>")
+vim.keymap.set("n","<C-right>","<C-W><C-L>")
+vim.keymap.set("n","<C-left>","<C-W><C-H>")
 vim.keymap.set("n", "<Leader>k", "<C-w>k")
 vim.keymap.set("n", "<Leader>h", "<C-w>h")
 vim.keymap.set("n", "<Leader>j", "<C-w>j")
@@ -464,12 +464,9 @@ telescope.setup {
 	extensions = { file_browser = { hidden = true } },
 }
 telescope.load_extension "file_browser"
-vim.keymap.set("n", "<Leader>j", telescope.extensions.file_browser.file_browser)
-vim.keymap.set("n", "<C-A>", telescope.extensions.file_browser.file_browser)
-vim.keymap.set("i", "<C-A>", telescope.extensions.file_browser.file_browser)
-
-vim.keymap.set("n", "<Leader>k", require("telescope.builtin").find_files)
-vim.keymap.set("n", "<Leader>l", require("telescope.builtin").treesitter)
+vim.keymap.set("n", "<C-j>", telescope.extensions.file_browser.file_browser)
+vim.keymap.set("n", "<C-k>", require("telescope.builtin").find_files)
+vim.keymap.set("n", "<C-l>", require("telescope.builtin").treesitter)
 
 -- local fzf = require("fzf")
 

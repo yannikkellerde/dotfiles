@@ -1,11 +1,13 @@
 # No super hotkeys
 
-Print
-	flameshot gui
-shift + Print
-	flameshot gui -p ~/screenshots
-ctrl + Print
-	flameshot full -p ~/screenshots
+XF86AudioNext
+	dbus-send --print-reply --dest=org.mpris.MediaPlayer2.spotify /org/mpris/MediaPlayer2 org.mpris.MediaPlayer2.Player.Next
+
+XF86AudioPrev
+  dbus-send --print-reply --dest=org.mpris.MediaPlayer2.spotify /org/mpris/MediaPlayer2 org.mpris.MediaPlayer2.Player.Previous
+
+XF86AudioPlay
+  dbus-send --print-reply --dest=org.mpris.MediaPlayer2.spotify /org/mpris/MediaPlayer2 org.mpris.MediaPlayer2.Player.PlayPause
 
 XF86MonBrightness{Up,Down}
 	brightnessctl s 10000{+,-}
@@ -14,8 +16,6 @@ XF86MonBrightness{Up,Down}
 super + {f2,f3}
 	brightnessctl s 1000{+,-}
 
-super + XF86MonBrightness{Up,Down}
-	brightnessctl s 1000{+,-}
 # Changing the Volume
 
 XF86Audio{Raise,Lower}Volume
@@ -23,6 +23,12 @@ XF86Audio{Raise,Lower}Volume
 
 XF86AudioMute
 	pulsemixer --toggle-mute
+
+Print
+	flameshot gui -p ~/Pictures/screenshots/
+
+shift + Print
+	flameshot full -p ~/screenshots
 
 # Caps lock
 shift + Caps_Lock
@@ -37,7 +43,7 @@ super + r
 
 # terminal emulator
 super + Return
-	alacritty
+	kitty -e zsh
 
 # open firefox
 super + z 
@@ -51,11 +57,32 @@ super + @space
 super + Escape
 	pkill -USR1 -x sxhkd
 
+super + e
+    thunar 
+
+# launch/restart polybar
+super + p
+    ~/.config/polybar/scripts/launch-polybar.sh
+
+# rofi 
+super + d
+	rofi -modi drun -show drun -width 5
+
+# pacman update
+super + u
+    bspc rule -a \* -o state=floating && kitty -e $SHELL -c "figlet update... && sudo pacman -Syu"
+
+# nitrogen
+ctrl + alt + w
+    bspc rule -a \* -o state=floating && nitrogen
 #
+
+# ranger
+shift + super + r
+    kitty -e ranger
+
 # bspwm hotkeys
 #
-super + alt + b
-	bash ~/.config/bspwm/bspwmrc
 
 # quit/restart bspwm
 super + alt + {q,r}
@@ -108,17 +135,19 @@ super + {_,shift + }{h,j,k,l}
 super + {p,b,comma,period}
 	bspc node -f @{parent,brother,first,second}
 
+super + alt + b
+  bluetoothctl -- connect 11:11:11:11:21:31
+
+super + ctrl + b
+	bash /home/kappablanca/.config/bspwm/bspwmrc
+
 # focus the next/previous window in the current desktop
 super + {_,shift + }c
 	bspc node -f {next,prev}.local.!hidden.window
 
-# disable touchpad
-super + {e,d}
-	toggle_cursor {enable,disable} 
-
 # focus the next/previous desktop in the current monitor
-super + alt + {Left,Right}
-	bspc desktop -f {prev,next}
+super + bracket{left,right}
+	bspc desktop -f {prev,next}.local
 
 # focus the last node/desktop
 super + {grave,Tab}
@@ -169,6 +198,17 @@ super + alt + shift + {h,j,k,l}
 # move a floating window
 super + {Left,Down,Up,Right}
 	bspc node -v {-20 0,0 20,0 -20,20 0}
+
+
+# --------- DUNST (NOTIFICATION MANAGER) ---------
+
+# close all notifications
+super + ctrl + x
+    dunstctl close-all
+
+# notifications history
+super + ctrl + h
+    dunstctl history-pop
 
 #
 # scratchpad

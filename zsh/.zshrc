@@ -1,14 +1,20 @@
+if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]; then
+  source "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" > /dev/null
+fi
 # If you come from bash you might have to change your $PATH.
 # export PATH=$HOME/bin:/usr/local/bin:$PATH
 
 # Path to your oh-my-zsh installation.
 export ZSH="$HOME/.oh-my-zsh"
+DISABLE_AUTO_UPDATE="true"
 
 # Set name of the theme to load --- if set to "random", it will
 # load a random theme each time oh-my-zsh is loaded, in which case,
 # to know which specific one was loaded, run: echo $RANDOM_THEME
 # See https://github.com/ohmyzsh/ohmyzsh/wiki/Themes
-ZSH_THEME="sorin"
+ZSH_THEME=""
+prompt default &> /dev/null
+PROMPT='%F{magenta}%1~%f %F{red}❯%F{yellow}❯%F{green}❯ %f'
 
 ZSH_AUTOSUGGEST_STRATEGY=(history completion)
 
@@ -73,9 +79,13 @@ ZSH_AUTOSUGGEST_STRATEGY=(history completion)
 # Example format: plugins=(rails git textmate ruby lighthouse)
 # Add wisely, as too many plugins slow down shell startup.
 plugins=(git
-				 # zsh-vi-mode
 				 zsh-autosuggestions
 			 	 zsh-syntax-highlighting
+					web-search 
+					copydir 
+					copyfile 
+					copybuffer 
+					dirhistory
 			 	 )
 
 source $ZSH/oh-my-zsh.sh
@@ -89,10 +99,72 @@ alias .....="cd ../../../.."
 alias condas='source /home/kappablanca/.local/bin/conda_activate.sh && conda'
 alias vim='nvim'
 alias ovim='vim'
-alias clip='$($history[$(($HISTCMD-1))])|xclip -selection clipboard'
+alias reload=". ~/.zshrc && echo 'ZSH config reloaded from ~/.zshrc'"
+alias zshrc='nvim $HOME/.zshrc'
+
+# Ranger configuration file
+alias rangerc='nvim $HOME/.config/ranger'
+
+# nvim configuration file
+alias vimrc='nvim $HOME/.config/nvim/init.vim'
+alias bspwmrc='nvim $HOME/.config/bspwm/bspwmrc'
+    
+# Polybar config
+alias polycfg='nvim $HOME/.config/polybar/config' 
+alias polyscr='nvim $HOME/.config/polybar/scripts' 
+ 
+# sxhkd config
+alias kbinds='nvim $HOME/.config/sxhkd/sxhkdrc'
+
+# kitty config
+alias kittyrc='nvim $HOME/.config/kitty/colorscheme.conf'
 #
 
 bindkey -v
-bindkey 'ö' autosuggest-accept
+bindkey "^[[1;5C" forward-word
+bindkey "^[[1;5D" backward-word
 
 setxkbmap de
+
+# Remove mode switching delay.
+KEYTIMEOUT=5
+
+# Change cursor shape for different vi modes.
+function zle-keymap-select {
+	if [[ ${KEYMAP} == vicmd ]] ||
+		 [[ $1 = 'block' ]]; then
+		echo -ne '\e[1 q'
+
+	elif [[ ${KEYMAP} == main ]] ||
+			 [[ ${KEYMAP} == viins ]] ||
+			 [[ ${KEYMAP} = '' ]] ||
+			 [[ $1 = 'beam' ]]; then
+		echo -ne '\e[5 q'
+	fi
+}
+zle -N zle-keymap-select
+
+# Use beam shape cursor on startup.
+_fix_cursor() {
+   echo -ne '\e[5 q'
+}
+
+precmd_functions+=(_fix_cursor)
+
+# if [ -d $HOME/.oh-my-zsh/additional ];
+# then
+
+#     # autosuggestions_colorscheme
+#     autosuggestions_colorscheme=$HOME/.oh-my-zsh/additional/plugins/auto-suggestions/auto-suggestions.colorscheme.conf
+#     [ -f $autosuggestions_colorscheme ] && source $autosuggestions_colorscheme
+
+#     # prompt
+#     prompt_config=$HOME/.oh-my-zsh/additional/prompt.conf
+#     [ -f $prompt_config ] && source $prompt_config
+# fi
+source $HOME/.oh-my-zsh/custom/themes/powerlevel10k/powerlevel10k.zsh-theme
+
+# To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
+[[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
+
+[ -f ~/.dircolors ] && eval "$(dircolors ~/.dircolors)";
