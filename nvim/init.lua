@@ -11,6 +11,7 @@ vim.api.nvim_create_autocmd(
 )
 
 require("packer").startup(function(use)
+	use "arcticicestudio/nord-vim"
 	use "mechatroner/rainbow_csv"
 	use "wbthomason/packer.nvim"
 	use "andweeb/presence.nvim"
@@ -40,7 +41,6 @@ require("packer").startup(function(use)
 	use 'nvim-treesitter/nvim-treesitter-context'
 	use 'lervag/vimtex'
 end)
-
 vim.o.clipboard = "unnamedplus"
 vim.o.ignorecase = true
 vim.o.lazyredraw = true
@@ -78,10 +78,10 @@ vim.keymap.set("n","<Space>Q",":%bd|e#<CR>", { silent = true})
 vim.keymap.set("n","<Space>vb",":ls<cr>:vertical sb<space>", { silent = true})
 vim.keymap.set("n","<Space>b",":ls<cr>:b<space>", { silent = true})
 vim.keymap.set("n","<Leader>b",":b#<CR>", { silent = true})
-vim.keymap.set("n","<Space>sb",":ls<cr>:sb<space>", { silent = true})
+vim.keymap.set("n","<Space>gb",":ls<cr>:sb<space>", { silent = true})
 
 vim.keymap.set("v","<Space>r", "\"hy:%s/<C-r>h//g<left><left>")
-vim.keymap.set("v","<Space>s",function()
+vim.keymap.set("v","<Space>g",function()
      return "y:.,.+" .. vim.v.count .. "s/<C-R>+/" end, {expr = true})
 vim.keymap.set("v","<Space>x","<C-x>")
 vim.keymap.set("v","<Space>a","<C-a>")
@@ -95,7 +95,8 @@ vim.keymap.set("n","<Space>(","C()<Esc>P")
 vim.keymap.set("n","<Space>[","C[]<Esc>P")
 vim.keymap.set("n","<Space>'","C''<Esc>P")
 vim.keymap.set("n",'<Space>"','C""<Esc>P')
-vim.keymap.set("v","<Space>p",'"9dP"')
+vim.keymap.set("v","<Space>p",'"0P')
+vim.keymap.set("n","<Space>p",'"0P')
 
 vim.keymap.set("n","<Leader>c",":VimtexCompile<CR>")
 vim.keymap.set("n","<Leader>e",":VimtexView<CR>")
@@ -136,6 +137,7 @@ vim.keymap.set("n", "<Leader>t", ":e term://zsh <CR>", { silent = true })
 vim.keymap.set("t", "<Esc><Esc>", "<C-\\><C-n>", { silent = true })
 vim.keymap.set("n", "<Leader>v", ":edit ~/.config/nvim/init.lua<CR>", { silent = true })
 vim.keymap.set("n", "<C-S>", ":update<CR>", { silent=true })
+vim.keymap.set("n", "<Space>s", ":update<CR>", { silent=true })
 vim.keymap.set("v", "<C-S>", "<C-C>:update<CR>", { silent=true })
 vim.keymap.set("i", "<C-S>", "<C-O>:update<CR>", { silent=true })
 
@@ -190,8 +192,7 @@ require("presence"):setup {
 	presence_workspace_text = "Working on « %s »",
 }
 
-vim.g.catppuccin_flavour = "mocha"
-vim.cmd "colorscheme catppuccin"
+vim.cmd "colorscheme nord"
 
 local db = require "dashboard"
 db.custom_header = {
@@ -399,21 +400,18 @@ require("gitsigns").setup {
 	},
 }
 
-local cp = require("catppuccin.palettes.init").get_palette()
-local custom_catppuccin = require "lualine.themes.catppuccin"
-custom_catppuccin.normal.b.bg = cp.surface0
-custom_catppuccin.normal.c.bg = cp.base
-custom_catppuccin.insert.b.bg = cp.surface0
-custom_catppuccin.command.b.bg = cp.surface0
-custom_catppuccin.visual.b.bg = cp.surface0
-custom_catppuccin.replace.b.bg = cp.surface0
-custom_catppuccin.inactive.a.bg = cp.base
-custom_catppuccin.inactive.b.bg = cp.base
-custom_catppuccin.inactive.b.fg = cp.surface0
-custom_catppuccin.inactive.c.bg = cp.base
+local custom_nord = require "lualine.themes.nord"
+custom_nord.normal.b.bg = "#2c3240"
+custom_nord.normal.c.bg = "#2c3240"
+custom_nord.inactive.a.bg = "#3c4250"
+custom_nord.inactive.b.bg = "#3c4250"
+custom_nord.inactive.c.bg = "#3c4250"
+custom_nord.inactive.a.fg = "#cccccc"
+custom_nord.inactive.b.fg = "#cccccc"
+custom_nord.inactive.c.fg = "#cccccc"
 require("lualine").setup {
 	options = {
-		theme = custom_catppuccin,
+		theme = custom_nord,
 		component_separators = "|",
 		section_separators = { left = "", right = "" },
 	},
